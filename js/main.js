@@ -1,4 +1,4 @@
-var socket = io.connect('http://192.168.0.101:3001');
+var socket = io.connect('http://localhost:3001');
 
 var sendButton = document.getElementById('send');
 var messageInput = document.getElementById('message');
