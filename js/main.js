@@ -1,3 +1,5 @@
+var socket = io.connect('http://192.168.0.101:3001');
+
 var sendButton = document.getElementById('send');
 var messageInput = document.getElementById('message');
 var messageList = document.getElementById('messages');
@@ -15,14 +17,17 @@ function createMessage() {
     return;
   }
 
-  var currentTime = moment().format('HH:mm:ss');
-  var message = currentTime + ' - ' + messageInput.value;
-
-  var listItem = document.createElement('li');
-  var listItemText = document.createTextNode(message);
-
-  listItem.appendChild(listItemText);
-  messageList.appendChild(listItem);
+  socket.emit('messageToServer', {
+    text: messageInput.value
+  });
 
   messageInput.value = '';
 }
+
+socket.on('messageToClient', function(message) {
+  var listItem = document.createElement('li');
+  var listItemText = document.createTextNode(message.time + ' - ' + message.text);
+
+  listItem.appendChild(listItemText);
+  messageList.appendChild(listItem);
+});
